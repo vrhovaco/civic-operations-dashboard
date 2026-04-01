@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civic Operations & Incident Reporting Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen active">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="institution-logo">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                        <rect width="48" height="48" rx="8" fill="#1e40af"/>
+                        <path d="M24 12L14 18V28L24 34L34 28V18L24 12Z" stroke="white" stroke-width="2" fill="none"/>
+                        <path d="M24 20V28" stroke="white" stroke-width="2"/>
+                        <path d="M20 22L24 20L28 22" stroke="white" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h1 class="institution-name" data-i18n="loginTitle">Gradska Uprava</h1>
+                <p class="institution-subtitle" data-i18n="loginSubtitle">Sistem za Upravljanje Javnim Prijavama</p>
+            </div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="email" data-i18n="email">Email</label>
+                    <input type="email" id="email" placeholder="korisnik@gradska-uprava.ba" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" data-i18n="password">Lozinka</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe">
+                        <span data-i18n="rememberMe">Zapamti me</span>
+                    </label>
+                    <a href="#" class="forgot-password" data-i18n="forgotPassword">Zaboravili ste lozinku?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block" data-i18n="login">Prijavi se</button>
+                
+                <div class="demo-info">
+                    <p data-i18n="demoInfo">Demo pristup - kliknite "Prijavi se" sa bilo kojim podacima</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp" class="main-app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <h1 class="header-title">COIR Dashboard</h1>
+            </div>
+            
+            <div class="header-right">
+                <button class="icon-btn" id="themeToggle" title="Toggle theme">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/>
+                    </svg>
+                </button>
+                
+                <button class="icon-btn" id="langToggle" title="Change language">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M7 2a1 1 0 011 1v1h3a1 1 0 110 2H9.578a18.87 18.87 0 01-1.724 4.78c.29.354.596.696.914 1.026a1 1 0 11-1.44 1.389c-.188-.196-.373-.396-.554-.6a19.098 19.098 0 01-3.107 3.567 1 1 0 01-1.334-1.49 17.087 17.087 0 003.13-3.733 18.992 18.992 0 01-1.487-2.494 1 1 0 111.79-.89c.234.47.489.928.764 1.372.417-.934.752-1.913.997-2.927H3a1 1 0 110-2h3V3a1 1 0 011-1zm6 6a1 1 0 01.894.553l2.991 5.982a.869.869 0 01.02.037l.99 1.98a1 1 0 11-1.79.895L15.383 16h-4.764l-.724 1.447a1 1 0 11-1.788-.894l.99-1.98.019-.038 2.99-5.982A1 1 0 0113 8zm-1.382 6h2.764L13 11.236 11.618 14z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+                
+                <div class="notifications">
+                    <button class="icon-btn" id="notificationsBtn">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+                        </svg>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="notifications-dropdown" id="notificationsDropdown">
+                        <div class="dropdown-header">
+                            <h3 data-i18n="notifications">Obavještenja</h3>
+                        </div>
+                        <div class="notification-list">
+                            <div class="notification-item">
+                                <div class="notification-icon status-high"></div>
+                                <div class="notification-content">
+                                    <p class="notification-text">Nova hitna prijava #1049</p>
+                                    <span class="notification-time">prije 5 min</span>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-icon status-resolved"></div>
+                                <div class="notification-content">
+                                    <p class="notification-text">Prijava #1042 riješena</p>
+                                    <span class="notification-time">prije 1h</span>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-icon status-progress"></div>
+                                <div class="notification-content">
+                                    <p class="notification-text">Prijava #1038 u obradi</p>
+                                    <span class="notification-time">prije 3h</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="user-menu">
+                    <button class="user-btn" id="userMenuBtn">
+                        <div class="user-avatar">AP</div>
+                        <span class="user-name">Admin Portal</span>
+                        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="#" class="dropdown-item">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                            <span data-i18n="profile">Profil</span>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+                            </svg>
+                            <span data-i18n="settings">Postavke</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item" id="logoutBtn">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
+                            </svg>
+                            <span data-i18n="logout">Odjavi se</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="nav">
+                <a href="#dashboard" class="nav-item active" data-page="dashboard">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                    </svg>
+                    <span data-i18n="dashboard">Dashboard</span>
+                </a>
+                
+                <a href="#reports" class="nav-item" data-page="reports">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"/>
+                    </svg>
+                    <span data-i18n="reports">Prijave</span>
+                </a>
+                
+                <a href="#new-report" class="nav-item" data-page="new-report">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/>
+                    </svg>
+                    <span data-i18n="newReport">Nova Prijava</span>
+                </a>
+                
+                <a href="#analytics" class="nav-item" data-page="analytics">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+                    </svg>
+                    <span data-i18n="analytics">Analitika</span>
+                </a>
+                
+                <a href="#services" class="nav-item" data-page="services">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                    </svg>
+                    <span data-i18n="services">Službe</span>
+                </a>
+                
+                <a href="#activity" class="nav-item" data-page="activity">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                    </svg>
+                    <span data-i18n="activity">Aktivnosti</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Dashboard Page -->
+            <div class="page active" id="dashboardPage">
+                <div class="page-header">
+                    <h2 data-i18n="dashboardTitle">Pregled Sistema</h2>
+                    <div class="page-actions">
+                        <button class="btn btn-secondary" id="exportBtn">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                            <span data-i18n="export">Export</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon stat-icon-primary">
+                            <svg width="24" height="24" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3 data-i18n="totalReports">Ukupno Prijava</h3>
+                            <p class="stat-value" id="totalReports">0</p>
+                            <span class="stat-label" data-i18n="allTime">Sve vrijeme</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon stat-icon-warning">
+                            <svg width="24" height="24" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3 data-i18n="openReports">Otvorene Prijave</h3>
+                            <p class="stat-value" id="openReports">0</p>
+                            <span class="stat-label stat-change-up">+12% <span data-i18n="fromLastWeek">od prošle sedmice</span></span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon stat-icon-info">
+                            <svg width="24" height="24" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3 data-i18n="inProgress">U Obradi</h3>
+                            <p class="stat-value" id="inProgressReports">0</p>
+                            <span class="stat-label" data-i18n="activeWork">Aktivne</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon stat-icon-success">
+                            <svg width="24" height="24" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3 data-i18n="resolved">Riješeno</h3>
+                            <p class="stat-value" id="resolvedReports">0</p>
+                            <span class="stat-label stat-change-up">+8% <span data-i18n="thisMonth">ovaj mjesec</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Grid -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 data-i18n="reportsByCategory">Prijave po Kategorijama</h3>
+                        </div>
+                        <div class="chart-content" id="categoryChart"></div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 data-i18n="reportsByStatus">Prijave po Statusu</h3>
+                        </div>
+                        <div class="chart-content" id="statusChart"></div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 data-i18n="recentActivity">Nedavne Aktivnosti</h3>
+                        <a href="#activity" class="btn btn-text" data-page="activity" data-i18n="viewAll">Pogledaj sve</a>
+                    </div>
+                    <div class="activity-list" id="dashboardActivityList"></div>
+                </div>
+            </div>
+
+            <!-- Reports Page -->
+            <div class="page" id="reportsPage">
+                <div class="page-header">
+                    <h2 data-i18n="reportsTitle">Lista Prijava</h2>
+                    <button class="btn btn-primary" id="newReportBtn">
+                        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <span data-i18n="newReport">Nova Prijava</span>
+                    </button>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-card">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Pretraži prijave..." data-i18n-placeholder="searchReports">
+                        </div>
+                        
+                        <div class="filter-group">
+                            <select id="statusFilter" class="form-control">
+                                <option value="">Svi statusi</option>
+                                <option value="open">Open</option>
+                                <option value="in-review">In Review</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="resolved">Resolved</option>
+                                <option value="closed">Closed</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <select id="categoryFilter" class="form-control">
+                                <option value="">Sve kategorije</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <select id="priorityFilter" class="form-control">
+                                <option value="">Svi prioriteti</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                                <option value="critical">Critical</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn btn-secondary" id="resetFilters">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                            </svg>
+                            <span data-i18n="reset">Reset</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Reports Table -->
+                <div class="card">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="id">ID</th>
+                                    <th data-i18n="title">Naslov</th>
+                                    <th data-i18n="category">Kategorija</th>
+                                    <th data-i18n="location">Lokacija</th>
+                                    <th data-i18n="date">Datum</th>
+                                    <th data-i18n="priority">Prioritet</th>
+                                    <th data-i18n="status">Status</th>
+                                    <th data-i18n="service">Služba</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reportsTableBody"></tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-footer">
+                        <div class="table-info">
+                            <span data-i18n="showing">Prikazano</span> <span id="showingFrom">0</span>-<span id="showingTo">0</span> <span data-i18n="of">od</span> <span id="totalItems">0</span>
+                        </div>
+                        <div class="pagination" id="pagination"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Report Page -->
+            <div class="page" id="newReportPage">
+                <div class="page-header">
+                    <h2 data-i18n="newReportTitle">Kreiranje Nove Prijave</h2>
+                </div>
+
+                <div class="form-card">
+                    <form id="newReportForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reportTitle" data-i18n="reportTitle">Naslov Prijave *</label>
+                                <input type="text" id="reportTitle" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reportDescription" data-i18n="description">Opis Problema *</label>
+                                <textarea id="reportDescription" class="form-control" rows="4" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reportCategory" data-i18n="category">Kategorija *</label>
+                                <select id="reportCategory" class="form-control" required></select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="reportPriority" data-i18n="priority">Prioritet *</label>
+                                <select id="reportPriority" class="form-control" required>
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                    <option value="critical">Critical</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reportLocation" data-i18n="location">Lokacija *</label>
+                                <input type="text" id="reportLocation" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reportImage" data-i18n="uploadImage">Dodaj Sliku</label>
+                                <div class="file-upload">
+                                    <input type="file" id="reportImage" accept="image/*">
+                                    <label for="reportImage" class="file-upload-label">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span data-i18n="chooseFile">Izaberi sliku</span>
+                                    </label>
+                                    <div id="imagePreview" class="image-preview"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="cancelNewReport" data-i18n="cancel">Otkaži</button>
+                            <button type="submit" class="btn btn-primary" data-i18n="submit">Pošalji Prijavu</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Analytics Page -->
+            <div class="page" id="analyticsPage">
+                <div class="page-header">
+                    <h2 data-i18n="analyticsTitle">Analitika i Izvještaji</h2>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card-small">
+                        <h4 data-i18n="avgResponseTime">Prosječno Vrijeme Odgovora</h4>
+                        <p class="stat-value-large">2.4h</p>
+                    </div>
+                    <div class="stat-card-small">
+                        <h4 data-i18n="resolutionRate">Procenat Riješenih</h4>
+                        <p class="stat-value-large">87%</p>
+                    </div>
+                    <div class="stat-card-small">
+                        <h4 data-i18n="avgResolutionTime">Prosječno Vrijeme Rješavanja</h4>
+                        <p class="stat-value-large">18.5h</p>
+                    </div>
+                    <div class="stat-card-small">
+                        <h4 data-i18n="satisfaction">Zadovoljstvo Građana</h4>
+                        <p class="stat-value-large">4.2/5</p>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card chart-card-full">
+                        <div class="chart-header">
+                            <h3 data-i18n="monthlyTrend">Trend Prijava po Mjesecima</h3>
+                        </div>
+                        <div class="chart-content" id="monthlyChart"></div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 data-i18n="topLocations">Najčešće Lokacije</h3>
+                        </div>
+                        <div class="location-list" id="topLocationsList"></div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 data-i18n="categoryDistribution">Distribucija po Kategorijama</h3>
+                        </div>
+                        <div class="category-distribution" id="categoryDistribution"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services Page -->
+            <div class="page" id="servicesPage">
+                <div class="page-header">
+                    <h2 data-i18n="servicesTitle">Pregled Službi</h2>
+                </div>
+
+                <div class="services-grid" id="servicesGrid"></div>
+            </div>
+
+            <!-- Activity Page -->
+            <div class="page" id="activityPage">
+                <div class="page-header">
+                    <h2 data-i18n="activityTitle">Log Aktivnosti</h2>
+                </div>
+
+                <div class="card">
+                    <div class="activity-timeline" id="activityTimeline"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Report Detail Modal -->
+    <div class="modal" id="reportModal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3 data-i18n="reportDetails">Detalji Prijave</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="reportModalBody"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <svg class="toast-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
